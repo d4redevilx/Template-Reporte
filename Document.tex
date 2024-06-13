@@ -1,0 +1,450 @@
+\documentclass[a4paper]{article} % Formato de plantilla que vamos a utilizar
+
+\author{Elliot Alderson}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=2cm, top=2cm, includefoot]{geometry} % Para establecer los márgenes del documento
+\usepackage{graphicx} % Para poder insertar imágenes
+\usepackage[table,xcdraw]{xcolor} % Para la representación de colores
+\usepackage{tikz,lipsum,lmodern} % Para la creación de cajas
+\usepackage[most]{tcolorbox} % Para la incorporación de colores en la caja
+\usepackage{fancyhdr} % Define el estilo de la página
+\usepackage[hidelinks]{hyperref} % Gestión de hipervínculos
+\usepackage{setspace} % Para asignar espacio entre líneas
+\setstretch{1.2} % Para que haya un espacio entre líneas
+\usepackage{parskip} % Elimina el sangrado(quitar tabulador inicial
+\usepackage[figurename=Imagen]{caption} % Para cambiar el nombre del caption donde pone 'Figura'
+\usepackage{ragged2e} % Para jugar con \justifying de cara a cuando hayamos terminado un \centering
+\usepackage{listings} % Para la inserción de código
+\usepackage{lipsum} % Para generar texto de ejemplo
+\usepackage{tabularx} % Para generar tablas
+\usepackage{array} % Necesario para definir el ancho de las columnas
+\usepackage{enumitem} % Para personalizar las listas
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.8em plus 0.5em minus 0.2em} % Establece el espacio entre párrafos en 1em (un espacio de fuente) más 0.5em de espacio extra permitido, con una reducción máxima de 0.2em
+
+\renewcommand{\arraystretch}{1.5} % Ajusta la altura de la fila para centrar verticalmente el contenido
+
+% Información de contacto del Cliente
+\newcommand{\clientName}{Demo Corp}
+\newcommand{\clientTitle}{CISO}
+\newcommand{\clientEmail}{john.smith@demo.com}
+\newcommand{\clientPhone}{(555) 555-5555}
+
+% Información de contacto del Autor
+\newcommand{\theAuthor}{Elliot Alderson}
+\newcommand{\theAuthorTitle}{Lead Penetration Tester}
+\newcommand{\theAuthorEmail}{elliot.alderson@proton.me}
+
+% Declaración de variables personalizadas
+\newcommand{\logoPortada}{images/ine.png}
+\newcommand{\mainTitle}{eCPPTv2 Penetration Testing Report}
+\newcommand{\startDatePentest}{08 de Marzo del 2024}
+\newcommand{\finalDatePentest}{12 de Marzo del 2024}
+\newcommand{\version}{1.0}
+
+% Colores
+\definecolor{blueColor}{HTML}{2e75b5}
+\definecolor{lightBlueColor}{HTML}{bbd4ec}
+\definecolor{criticalColor}{HTML}{c00000}
+\definecolor{highColor}{HTML}{ff0000}
+\definecolor{moderateColor}{HTML}{ffc000}
+\definecolor{lowColor}{HTML}{43b02a}
+\definecolor{informationalColor}{HTML}{0070c0}
+
+% Adicionales
+\addto\captionsspanish{\renewcommand{\contentsname}{Table of Contents}} % Renombra el título del indice
+\setlength{\headheight}{40.2pt}
+
+\usepackage{titletoc}
+
+\titlecontents{section}
+  [1.5em]
+  {\contentslabel{2.3em}}
+  {\contentslabel{2.3em}}
+  {}
+  {\titlerule*[0.5pc]{.}\contentspage}
+
+% Head
+% \lhead{\includegraphics[height=1cm]{\logoPortada}}\rhead{\includegraphics[height=1cm]{\logoPortada}}
+\lhead{}\rhead{\includegraphics[height=1cm]{\logoPortada}}
+\renewcommand{\headrulewidth}{0.2pt} % Para aumentar el tamaño de la barra
+\renewcommand{\headrule}{\hbox to\headwidth{\color{black}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\lstlistingname}{Código} % Para cambiar 'Código' en el código
+
+% Footer
+\pagestyle{fancy}
+\lfoot{ \fancyplain{}{\theAuthor} }
+\fancyfoot[C]{Copyright \copyright{} \clientName}
+\rfoot{ \fancyplain{}{\thepage} }
+
+\begin{document} % Inicio del documento
+    %------------------------------------------------------------------------------------------------------------------------
+	\begin{titlepage}
+		\centering
+		{\fontsize{26}{13}{\textbf{\mainTitle}}} % titulo principal
+		\vfill
+		{\fontsize{24}{12}\selectfont{\clientName}\par} % nombre del cliente
+        {\fontsize{12}{14}\selectfont\textbf{By}\par}
+        {\fontsize{16}{14}\selectfont{\theAuthor}\par} % autor del documento
+        {\large{Versión \version}\par} % versión del documento
+		\vfill
+		\includegraphics[width=0.35\textwidth]{\logoPortada} % logo de la portada
+		\vfill
+        % alerta de confidencialidad
+		\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black]
+			\centering
+		  Este documento es confidencial y contiene información sensible.\\No debería ser impreso y compartido con terceras entidades.
+		\end{tcolorbox}
+		\vfill
+		{\large \startDatePentest}
+		\vfill
+	\end{titlepage}
+    %------------------------------------------------------------------------------------------------------------------------
+
+    % Tabla de contenido
+    \clearpage
+	\tableofcontents
+	\clearpage
+    % Fin de la Tabla de contenido
+
+    % Declaración de confidencialidad
+    \section{Confidentiality Statement}
+    This document is the exclusive property of {\clientName} and {\theAuthor}. This document contains proprietary and confidential information. Duplication, redistribution, or use, in whole or in part, in any form, requires consent of both {\clientName} and {\theAuthor}.
+
+    {\clientName} may share this document with auditors under non-disclosure agreements to demonstrate penetration test requirement compilance.
+
+    % Este documento es propiedad exclusiva de \textbf{\clientName} y \textbf{\theAuthor}. Contiene información confidencial y propietaria. La duplicación, redistribución o uso, total o parcial, en cualquier forma, requiere el consentimiento tanto de \textbf{\clientName} como de \textbf{\theAuthor}.
+
+    % \textbf{{\clientName}} puede compartir este documento con auditores bajo acuerdos de confidencialidad para demostrar el cumplimiento de los requisitos de la prueba de penetración.
+    % Fin Declaración de confidencialidad
+    \clearpage
+
+    % Inicio Descargo de responsabilidad
+    \section{Disclaimer} % Disclaimer
+    A penetration test is considered a snapshot in time. The findings and recommendations reflect the information gathered during the assessment and not any changes or modifications made outside of that period.
+
+    Time-limited engagements do not allow for a full evaluations of all security controls. {\theAuthor} prioritized the assessment to identify the weakest security controls an attacker would exploit. {\theAuthor} recommends conducting similar assessments on an annual basis by internal or third-party assessors to ensure the continued success of the controls.
+    
+    % Una prueba de penetración se considera una instantanea en el tiempo. Los hallazgos y recomendaciones reflejan la información recopilada durante la evaluación y no culaquier cambio o modificación realizada fuera de ese período.
+    % Los compromisos limitados en el tiempo no permiten una evaluación completa de todos los controles de seguridad. \textbf{\theAuthor} priorizó la evaluación para identificar los controles de seguridad más débiles que un atacante explotaría. \textbf{\theAuthor} recomienda realizar evaluaciones similares de forma anual por evaluadores internos o de terceros para garantizar el éxito continuo de los controles.
+    % Fin Descargo de responsabilidad
+    \clearpage
+    
+    % Inicio Información de contacto
+    \section{Contact Information} % Contact Information
+    \begin{table}[htbp]
+        \begin{tabularx}{\textwidth}{|X|X|p{6cm}|}
+            \hline
+            \rowcolor{gray}
+            \textbf{\textcolor{white}{Name}} & \textbf{\textcolor{white}{Title}} & \textbf{\textcolor{white}{Contact Information}} \\
+            \hline
+            \rowcolor{lightgray}
+            \multicolumn{3}{|l|}{\textbf{\clientName}} \\
+            \hline
+            {\clientName} & {\clientTitle} 2 & \parbox[t]{6cm}{Office: \texttt{{\clientPhone}} \\ Email: \texttt{{\clientEmail}}} \\
+            \hline
+            \rowcolor{lightgray}
+            \multicolumn{3}{|l|}{\textbf{\theAuthor}} \\
+            \hline
+            {\theAuthor} & {\theAuthorTitle} & Email: \texttt{\theAuthorEmail} \\
+            \hline
+        \end{tabularx}
+    \end{table}
+    % Fin Información de contacto
+    \clearpage
+
+    % Inicio Resumen de Evaluación
+    \section{Assessment Overview} % Assessment Overview
+    From {\startDatePentest} to {\finalDatePentest}, {\clientName} engaged {\theAuthor} to evaluate the security posture of its infraestrucure compared to current industry best practices that included an internal network penetration test. All testing performed is based on the NIST SP 800-115 Techinical Guide to Information Security TEsting and Assessment, OWASP Testing Guide (v4), and customized testing frameworks.
+
+    Phases of penetration testing activities include the following:
+
+    \begin{enumerate}[label=\textit{\arabic*.}]
+        \item \textbf{Planning:} Customer goals are gathered and rules of engaggment obtained.
+        \item \textbf{Discovery:} Perform scanning and enumeration to identify potential vulnerabilities, weak, areas, and exploits.
+        \item \textbf{Attack} Confirm potential vulnerabilities through explotation and perform additional discovery upon new access.
+        \item \textbf{Reporting:} Document all found vulnerabilities and exploits, failed attempts, and company strengths and weaknesses.
+    \end{enumerate}
+
+    % Desde el \textbf{{\startDatePentest}} hasta \textbf{{\finalDatePentest}}, \textbf{{\clientName}} contrató a \textbf{{\theAuthor}} para evaluar la postura de seguridad de su infraestructura en comparación con las mejores práctias de la industria actual, lo que incluyó una prueba de penetración interna.
+
+    % Las fases de las actividades de prueba de penetración incluyen lo siguiente:
+
+    % \begin{enumerate}[label=\textit{\arabic*.}]
+    %     \item \textbf{Planificación:} Se recopilan los objetivos del cliente y se obtienen las reglas de compromiso.
+    %     \item \textbf{Descubrimiento:} Realizar exploraciones y enumeración para identificar posibles vulnerabilidades, áreas débiles y exploits.
+    %     \item \textbf{Ataque:} Confirmar posibles vulnerabilidades a través de la explotación y realizar descubrimientos adicionales al obtener nuevo acceso.
+    %     \item \textbf{Informe:} Documentar todas las vulnerabilidades y exploits encontrados, intentos fallidos, así como las fortalezas y debilidades de la empresa.
+    % \end{enumerate}
+    % Fin Resumen de Evaluación
+
+    \section{Assessment Components}
+    \subsection{Internal Penetration Test}
+    An internal penetration test emulates the role of an attacker from inside the network. An engineer will scan the network to idenfiy potential host vulnerabilities and perform common and advanced internal network attacks, such as: LLMNR/NBT-NS poisoning and other man-in-the-middle attacks, token impersonation, kerberoasting, pass-the-hash, golden ticket, and more. The engineer will seek to gain access to hosts trough lateral movement, compromise domain user and admin accounts, and exfiltrate sensitive data.
+
+    \clearpage
+    % Inicio Clasificación de Gravedad de Hallazgos % Finding Severity Raitings
+    \section{Finding Severity Raitings}
+    The following table defines levels of severity and corresponding CVSS score range that are used throughout the document to assess vulnerability and risk impact.
+    %La siguiente tabla define los niveles de gravedad y el rango de puntuación CVSS correspondiente que se utilizan en todo el documento para evaluar la vulnerabilidad y el impacto del riesgo.
+    \vspace{0.3cm}
+
+    \vspace{0.3cm}
+
+    \begin{table}[htbp]
+        \centering
+        \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}p{10cm}|}
+            \hline
+            \rowcolor{gray}
+            \textbf{\textcolor{white}{Severity}} & \textbf{\textcolor{white}{CVSS V3 Score Range}} & \textbf{\textcolor{white}{Definition}} \\
+            \hline
+            \cellcolor{criticalColor}\textbf{Critical} & 
+            {9-10} & 
+            \parbox[t]{10cm}{
+                Exploitation is straightforward and usually results in system-level compromise. It is advised to form a plan of action and patch immediateley.
+            } \\
+            \hline
+            \cellcolor{highColor}\textbf{High} & 
+            {7-8} & 
+            \parbox[t]{10cm}{
+                Exploitation is more difficult but could cause elevated privileges and potentially a loss of data or downtime. It is advised to form a plan of action and patch as soon as possible.
+            } \\
+            \hline
+            \cellcolor{moderateColor}\textbf{Moderate} & 
+            {4-6} & 
+            \parbox[t]{10cm}{
+                Vulnerabilities exist but are not exploitable or require extra steps such as social engineering. It is advised to form a plan of action and patch after high-priority issues have been resolved.
+            } \\
+            \hline
+            \cellcolor{lowColor}\textbf{Low} & 
+            {1-3} & 
+            \parbox[t]{10cm}{
+                Vulnerabilities are non-exploitable but would reduce an organization's attack surface. It is advice to form a plan of action and patch during the next maintenance window.
+            } \\
+            \hline
+            \cellcolor{informationalColor}\textbf{Informational} & 
+            {N/A} & 
+            \parbox[t]{10cm}{
+                No vulnerability exists. Additional information is provided regarding itemas noticed during testing, strong controls, and additional documentation.
+            } \\
+            \hline
+        \end{tabularx}
+    \end{table}
+    % Fin Clasificación de Gravedad de Hallazgos
+
+    \section{Risk Factors}
+    Risk is measured by two factors \textbf{Likelihood} y \textbf{Impact}
+    
+    \subsection{Likelihood}
+    Likelihood measures the potential of a vulnerability being exploited. Raitings are given based on the difficulty of the attack, the available tools, attacker skill level, and client enviroment.
+
+    \subsection{Impact}
+    Impact measures the potential vulnerabilities effect on operations, including confidentiality, integrity, and availabiility of client systems and / or data, reputational harm, and financial loss.
+    
+    % \subsection{Likelihood} % Probabilidad
+    % La probabilidad mide el potencial de explotación de una vulnerabilidad. Las calificaciones se otorgan en función de la dificultad del ataque, las herramientas disponibles, el nivel de habilidad del atacante y el entorno del cliente.
+
+    % \subsection{Impact} % Impacto
+    % El impacto mide el efecto potencial de la vulnerabilidad en las operaciones, incluyendo la confidencialidad, integridad y disponibilidad de los sistemas y/o datos del cliente, el daño reputacional y la pérdida financiera.
+
+    \clearpage
+
+    \section{Scope} % Alcance
+    \begin{table}[htbp]
+        \begin{tabularx}{\textwidth}{|X|X|}
+            \hline
+            \rowcolor{blueColor}
+            \textbf{\textcolor{white}{Assessment}} & \textbf{\textcolor{white}{Details}} \\
+            \hline
+            {Internal Penetration Test} & {10.10.10.0/24, 10.10.10.5} \\
+            \hline
+        \end{tabularx}
+    \end{table}
+
+    \subsection{Scope Exclusions}
+
+    During the auditing process, and at the request of the client {\clientName}, it is strictly forbidden to carry out any of the following activities:
+    
+    \begin{itemize}
+        \item Performing tasks that may cause a denial of service (DoS) or affect the availability of the exposed services.
+        \item Deleting files resident on the server once it has been compromised.
+    \end{itemize}
+    
+    \subsection{Client Allowances}
+    {\clientName} provided {\theAuthor} with the following concessions:
+
+    \begin{itemize}
+        \item Identifying vulnerable ports and services.
+        \item Exploiting the vulnerabilities found.
+        \item Gaining access to the server by exploiting the identified vulnerable services.
+        \item Enumerating potential avenues to escalate privileges in the system once it has been compromised.
+    \end{itemize}
+
+    \clearpage
+
+    \section{Executive Summary}
+    \textbf{\theAuthor} evaluó la postura de seguridad del examen de \textbf{\clientName} mediante una prueba de penetración de tipo interna desde \textbf{{\startDatePentest}} hasta el \textbf{{\finalDatePentest}}. Al aprovechar una serie de ataques, {\theAuthor} encontró vulnerabilidades de nivel crítico que comprometieron el entorno del examen y los objetivos de aprobación. Se recomienda encarecidamente que \textbf{\clientName} aborde estas vulnerabilidades lo antes posible, ya que son fácilmente detectables a través de reconocimiento básico y son explotables sin mucho esfuerzo.
+
+    \section{Testing Summary}
+    En esta sección, se deben describir las vulnerabilidades identificads y proporciona información básica sobre el impacto de la explotación.
+
+    \clearpage
+    \section{Vulnerability Summary \& Report Card}
+    The following table ilustrate the vulnerabilities found by impact and recommended remendations:
+
+    \subsection{Internal Penetration Testing Findings}
+
+    \begin{table}[htbp]
+        \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+            \hline
+            \cellcolor{criticalColor}\textbf{0} &
+            \cellcolor{highColor}\textbf{0} &
+            \cellcolor{moderateColor}\textbf{0} &
+            \cellcolor{lowColor}\textbf{0} &
+            \cellcolor{informationalColor}\textbf{0} \\
+            \hline
+            {Critical} &
+            {High} &
+            {Moderate} &
+            {Low} &
+            {Informational} \\
+            \hline
+        \end{tabularx}
+    \end{table}
+
+    \begin{table}[htbp]
+        \begin{tabularx}{\textwidth}{|X|>{\centering\arraybackslash}X|}
+            \hline
+            \cellcolor{lightBlueColor}\textbf{Total of Vulnerabilities} &
+            {1} \\
+            \hline
+        \end{tabularx}
+    \end{table}
+
+    \begin{table}[htbp]
+        \centering
+        \begin{tabularx}{\textwidth}{|X|c|X|}
+            \hline
+            \rowcolor{blueColor}
+            \textbf{\textcolor{white}{Finding}} &
+            \textbf{\textcolor{white}{Severity}} &
+            \textbf{\textcolor{white}{Recommendation}} \\
+            \hline
+            \multicolumn{3}{|l|}{\cellcolor{lightBlueColor}\textbf{Internal Penetration Test}} \\
+            \hline
+            \textbf{Vulnerability 001:} Insufficient Patch Management - Samba 3.0.20
+            \texttt{Username} map script Command Execution - CVE-2007-2447 & 
+            \cellcolor{criticalColor}\textbf{Critical} &
+            Upgrade the Samba to the latest version \\
+            \hline
+            \textbf{Vulnerability 002:} Insufficient Hardening - Anonymous permitted & 
+            \cellcolor{highColor}\textbf{High} &
+            Disable the anonymous login on ftp \\
+            \hline
+            \textbf{Vulnerability 003:} Insufficient Hardening Samba READ/WRITE Permissions allowed & 
+            \cellcolor{highColor}\textbf{High} &
+            Disable the READ/WRITE for the tmp folder without getting any password \\
+            \hline
+            \textbf{Vulnerability 004:} Insufficient Patch Management - vsftpd 2.3.4 Backdoor Command Execution - CVE-2011-2523 & 
+            \cellcolor{moderateColor}\textbf{Moderate} &
+            Disable the READ/WRITE for the tmp folder without getting any password \\
+            \hline
+        \end{tabularx}
+    \end{table}
+
+    \clearpage
+
+    \section{Techinical findings}
+    \subsection{Target - 10.10.10.5}
+    \subsubsection{\textbf{Vulnerability 001 - Local File Inclusion}}
+    \begin{table}[htbp]
+        \begin{tabularx}{\textwidth}{|c|X|}
+            \hline
+            \cellcolor{lightgray}\textbf{Description:} & 
+            {
+                Breve descripción sobre que concisite la vulnerabilidad explotada.
+            } \\
+            \hline
+            \cellcolor{lightgray}\textbf{Severity:} &
+            {
+                Ej. Critical
+            } \\
+            \hline
+            \cellcolor{lightgray}\textbf{Vulnerability ID:} &
+            {
+                    (OSVDB, Bugtraq ID, CVE) Ej. CVE-2017-0144
+            } \\
+            \hline
+            \cellcolor{lightgray}\textbf{Risk:} &
+            {
+                En esta sección, debemos indicar la probabilidad (Likelihood) y el impacto (Impact).
+            } \\
+            \hline
+            \cellcolor{lightgray}\textbf{Tools Used:} &
+            {
+                Listar las herramientas utilizadas al momento de realizar el ataque.
+                
+                Ej. Burpsuite
+            } \\
+            \hline
+            \cellcolor{lightgray}\textbf{References:} &
+            {
+                Enlaces a recursos utilizados para realizar el ataque o que sirvan para complementar la descripción.
+                
+                Enlace a la referencia de Clasificación de la vulnerabilidad:
+                Ej. https://cve.mitre.org/cgi-bin/cvename.cgi?name=cve-2017-0144
+            } \\
+            \hline
+        \end{tabularx}
+    \end{table}
+
+    \textbf{Evidence}
+
+    En esta sección debemos indicar el paso a paso de la explotación, complementando la misma con capturas de imágenes.
+    Como si fuese un mini writeup.
+
+    \textbf{Recommendations}
+    En esta sección debemos detallar las recomendaciones/medidas necesarias para resolver/mitigar la vulnerabilidad.
+
+    \clearpage
+
+    \section{Conclusion}
+    Se han detectado vulnerabilidaes cr´ıticas que pueden suponer un riesgo desde el punto de vista de la seguridad. Han sido encontradas vulnerabilidades las cuales permitieron vulnerar la integridad del servidor, consiguiendo acceso al mismo como el usuario ’apache’.
+    Esto ha sido posible debido a una versi´on vulnerable de PhpMyAdmin existente en uno de los subdominios
+    identificados durante el proceso de reconocimiento bajo el dominio ’votenow.local’.
+    Se recomienda encarecidamente aplicar las contramedidas recomendadas para corregir estas vulnerablidades lo
+    antes posible, dado que de lo contrario se podr´ıa comprometer la seguridad del servidor y poner en riesgo la
+    integridad de todos los datos almacendos en este.
+
+    \clearpage
+
+    \section{Appendices}
+    \subsection{Detailed technical information}
+    \subsection{Glossary of terms}
+    \subsection{References}
+
+    \null
+    \vfill
+    \hfill
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.30\textwidth]{images/logoPortada.png}
+    \end{figure}
+    \hfill
+    \null
+    \vfill
+    \null
+
+    \null
+    \hfill
+    \textbf{\Huge Last Page}
+    \hfill
+    \null
+    \vfill
+    \vfill
+    \null
+    
+\end{document} % Fin del documento
